@@ -114,15 +114,13 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 					}
 					if ( $this->options[ 'post_types-' . $pt->name . '-amp' ] === 'on' ) {
 						add_post_type_support( $pt->name, AMP_QUERY_VAR );
+						return;
 					}
-					else {
-						if ( 'post' === $pt->name ) {
-							add_action( 'wp', array( $this, 'disable_amp_for_posts' ) );
-						}
-						else {
-							remove_post_type_support( $pt->name, AMP_QUERY_VAR );
-						}
+					if ( 'post' === $pt->name ) {
+						add_action( 'wp', array( $this, 'disable_amp_for_posts' ) );
+						return;
 					}
+					remove_post_type_support( $pt->name, AMP_QUERY_VAR );
 				}
 			}
 		}
@@ -315,11 +313,9 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 		 * @return string
 		 */
 		private function get_post_schema_type( $post ) {
+			$type = 'WebPage';
 			if ( 'post' === $post->post_type ) {
 				$type = 'Article';
-			}
-			else {
-				$type = 'WebPage';
 			}
 
 			/**

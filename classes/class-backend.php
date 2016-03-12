@@ -107,6 +107,8 @@ if ( ! class_exists( 'YoastSEO_AMP_Backend', false ) ) {
 		 *
 		 * @param string $var
 		 * @param string $label
+		 *
+		 * @SuppressWarnings("PMD.UnusedPrivateMethod") // As this is used in a view
 		 */
 		private function color_picker( $var, $label ) {
 			echo '<label class="checkbox" for="', esc_attr( $var ), '">', esc_html( $label ), '</label>';

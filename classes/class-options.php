@@ -90,13 +90,12 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 
 		/**
 		 * Collect options
+		 *
+		 * @SuppressWarnings("PMD.UnusedPrivateMethod")
 		 */
 		private function fetch_options() {
-
-			if ( isset( $this->options ) ) {
-				$saved_options = $this->options;
-			}
-			else {
+			$saved_options = $this->options;
+			if ( ! is_array( $this->options ) ) {
 				$saved_options = get_option( 'wpseo_amp' );
 
 				// Apply defaults.
@@ -122,11 +121,9 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $post_type ) {
 					if ( ! isset( $this->options[ 'post_types-' . $post_type->name . '-amp' ] ) ) {
+						$this->options[ 'post_types-' . $post_type->name . '-amp' ] = 'off';
 						if ( 'post' === $post_type->name ) {
 							$this->options[ 'post_types-' . $post_type->name . '-amp' ] = 'on';
-						}
-						else {
-							$this->options[ 'post_types-' . $post_type->name . '-amp' ] = 'off';
 						}
 					}
 
