@@ -98,7 +98,7 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	 * Sanitizes anchor attributes
 	 *
 	 * @param DOMNode $node
-	 * @param object $attribute
+	 * @param DOMAttr $attribute
 	 */
 	private function sanitize_a_attribute( $node, $attribute ) {
 		$attribute_name = strtolower( $attribute->name );
@@ -114,7 +114,7 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	 * Sanitizes pre tag attributes
 	 *
 	 * @param DOMNode $node
-	 * @param object $attribute
+	 * @param DOMAttr $attribute
 	 */
 	private function sanitize_pre_attribute( $node, $attribute ) {
 		$attribute_name = strtolower( $attribute->name );
@@ -128,7 +128,7 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	 * Sanitizes td / th tag attributes
 	 *
 	 * @param DOMNode $node
-	 * @param object $attribute
+	 * @param DOMAttr $attribute
 	 */
 	private function sanitize_cell_attribute( $node, $attribute ) {
 		$attribute_name = strtolower( $attribute->name );
@@ -139,11 +139,10 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	}
 
 	/**
-	 * Sanitize table tag
-	 * attributes
+	 * Sanitize table tag attributes
 	 *
 	 * @param DOMNode $node
-	 * @param object $attribute
+	 * @param DOMAttr $attribute
 	 */
 	private function sanitize_table_attribute( $node, $attribute ) {
 		$attribute_name = strtolower( $attribute->name );
@@ -157,7 +156,7 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	 * Sanitize img tag attributes
 	 *
 	 * @param DOMNode $node
-	 * @param object $attribute
+	 * @param DOMAttr $attribute
 	 */
 	private function sanitize_img_attribute( $node, $attribute ) {
 		$attribute_name = strtolower( $attribute->name );

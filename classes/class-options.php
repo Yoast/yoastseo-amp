@@ -8,6 +8,9 @@
 
 if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 
+	/**
+	 * Class YoastSEO_AMP_Options
+	 */
 	class YoastSEO_AMP_Options {
 
 		/** @var string Name of the option in the database */
@@ -39,6 +42,9 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 		/** @var self Class instance */
 		private static $instance;
 
+		/**
+		 * YoastSEO_AMP_Options constructor.
+		 */
 		private function __construct() {
 			// Register settings
 			add_action( 'admin_init', array( $this, 'register_settings' ) );
@@ -114,26 +120,19 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 		}
 
 		/**
-		 * @param string $source Raw input.
+		 * @param string $code Raw input.
 		 *
 		 * @return string Sanitized code.
 		 */
-		private function sanitize_analytics_code( $source ) {
+		private function sanitize_analytics_code( $code ) {
 
-			$source = trim( $source );
-
-			if ( empty( $source ) ) {
-				return $source;
+			$code = trim( $code );
+			if ( empty( $code ) ) {
+				return $code;
 			}
 
-			$code = $source;
-
-			// Strip all tags, to verify JSON input.
-			$json        = strip_tags( $code );
-			$parsed_json = json_decode( $json, true );
-
-			// Non-parsable JSON is always bad.
-			if ( is_null( $parsed_json ) ) {
+			$json = $this->verify_json_parsing( $code );
+			if ( empty( $json ) ) {
 				return '';
 			}
 
@@ -147,18 +146,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 				return '';
 			}
 
-			$parts = explode( '><', $tag );
-			$parts[0] .= '>';
-			$parts[1] = '<' . $parts[1];
-
-			// Rebuild with script tag and json content.
-			array_splice( $parts, 1, null, array(
-				'<script type="application/json">',
-				trim( $json ),
-				'</script>'
-			) );
-
-			return implode( "\n", $parts );
+			return $this->rebuild_analytics_code( $tag, $json );
 		}
 
 		/**
@@ -227,6 +215,48 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 					$post_type_names[] = $post_type->name;
 				}
 			}
+		}
+
+		/**
+		 * Verifies that $code contains a parseable JSON string
+		 *
+		 * @param string $code
+		 *
+		 * @return string
+		 */
+		private function verify_json_parsing( $code ) {
+			// Strip all tags, to verify JSON input.
+			$json        = strip_tags( $code );
+			$parsed_json = json_decode( $json, true );
+
+			// Non-parseable JSON is always bad.
+			if ( is_null( $parsed_json ) ) {
+				return '';
+			}
+			return $json;
+		}
+
+		/**
+		 * Rebuilds the analytics code in the right way
+		 *
+		 * @param string $tag
+		 * @param string $json
+		 *
+		 * @return string
+		 */
+		private function rebuild_analytics_code( $tag, $json ) {
+			$parts = explode( '><', $tag );
+			$parts[0] .= '>';
+			$parts[1] = '<' . $parts[1];
+
+			// Rebuild with script tag and json content.
+			array_splice( $parts, 1, null, array(
+				'<script type="application/json">',
+				trim( $json ),
+				'</script>'
+			) );
+
+			return implode( "\n", $parts );
 		}
 	}
 }
