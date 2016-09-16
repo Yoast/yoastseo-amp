@@ -421,6 +421,11 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 		public function amp_post_support_callback() {
 			$amp_post_types = get_post_types_by_support( 'amp' );
 
+			// bail on archive and other non-singular templates
+			if( !is_singular( $amp_post_types) ){
+				return false;
+			}
+
 			$current_post_type = get_post_type();
 
 			return in_array( $current_post_type, $amp_post_types );
