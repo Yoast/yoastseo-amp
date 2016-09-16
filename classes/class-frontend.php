@@ -90,6 +90,10 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 					'selector' => 'a:hover, a:focus',
 					'property' => 'color',
 				),
+				'underline'              => array(
+					'selector' => 'a',
+					'property' => 'text-decoration',
+				),
 				'meta-color'              => array(
 					'selector' => '.amp-wp-meta li, .amp-wp-meta li a',
 					'property' => 'color',
@@ -190,7 +194,11 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 		public function fix_amp_post_data( $data ) {
 			$data['canonical_url'] = $this->front->canonical( false );
 			if ( ! empty( $this->options['amp_site_icon'] ) ) {
-				$data['site_icon_url'] = $this->options['amp_site_icon'];
+				$site_icon_id = $this->options['amp_site_icon'];
+				$site_icon    = wp_get_attachment_image_src( $site_icon_id, 'full' );
+				if ( ! empty( $site_icon ) ) {
+					$data['site_icon_url'] = $site_icon[0];
+				}
 			}
 
 			// If we are loading extra analytics, we need to load the module too.
@@ -238,7 +246,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 
 			$css_selectors = $this->get_css_selectors();
 
-			foreach( $css_selectors as $key => $css ){
+			foreach ( $css_selectors as $key => $css ) {
 				$css_builder->add_option( $key, $css['selector'], $css['property'] );
 			}
 
@@ -341,7 +349,16 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 
 			// Posts without an image fail validation in Google, leading to Search Console errors
 			if ( ! is_array( $image ) && isset( $this->options['default_image'] ) ) {
-				return $this->get_image_object( $this->options['default_image'] );
+				$default_img_id = $this->options['default_image'];
+				$default_img    = wp_get_attachment_image_src( $default_img_id, 'full' );
+				if ( is_array( $default_img ) ) {
+					return array(
+						'@type'  => 'ImageObject',
+						'url'    => $default_img[0],
+						'width'  => $default_img[1],
+						'height' => $default_img[2],
+					);
+				}
 			}
 
 			return $image;

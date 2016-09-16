@@ -47,7 +47,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 
 		private function __construct() {
 			add_action( 'customize_register', array( $this, 'amp_customizer_settings' ) );
-			add_action( 'wp_enqueue_scripts', array( $this, 'amp_customizer_preview_enqueue' ) );
+			add_action( 'amp_post_template_footer', array( $this, 'amp_customizer_preview_enqueue' ) );
 			add_action( 'customize_controls_enqueue_scripts', array( $this, 'amp_customizer_controls_enqueue' ) );
 		}
 
@@ -56,10 +56,10 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 		 *
 		 * @param string $input Raw input.
 		 *
-		 * @return string|false Sanitized input.
+		 * @return string Sanitized input.
 		 */
 		public function sanitize_link_underline( $input ) {
-			return ( 'underline' === $input ) ? $input : false;
+			return ( 'underline' === $input ) ? $input : 'none';
 		}
 
 		/**
@@ -168,7 +168,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 				'text-color'              => __( 'Text color', 'wordpress-seo' ),
 				'meta-color'              => __( 'Post meta info color', 'wordpress-seo' ),
 				'link-color'              => __( 'Link text color', 'wordpress-seo' ),
-				'link-color-hover'        => __( 'link hover color', 'wordpress-seo' ),
+				'link-color-hover'        => __( 'Link hover color', 'wordpress-seo' ),
 				'blockquote-text-color'   => __( 'Blockquote text color', 'wordpress-seo' ),
 				'blockquote-bg-color'     => __( 'Blockquote background color', 'wordpress-seo' ),
 				'blockquote-border-color' => __( 'Blockquote border color', 'wordpress-seo' ),
@@ -317,7 +317,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 					'label'   => $default_labels['underline'],
 					'choices' => array(
 						'underline' => __( 'Enabled', 'wordpress-seo' ),
-						false => __( 'Disabled', 'wordpress-seo' ),
+						'none' => __( 'Disabled', 'wordpress-seo' ),
 					),
 				)
 			);
