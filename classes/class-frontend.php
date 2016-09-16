@@ -52,6 +52,52 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 		}
 
 		/**
+		 * Return CSS selector information
+		 *
+		 * @return array
+		 */
+		public function get_css_selectors() {
+			return array(
+				'header-color'            => array(
+					'selector' => 'nav.amp-wp-title-bar',
+					'property' => 'background',
+				),
+				'headings-color'          => array(
+					'selector' => '.amp-wp-title, h2, h3, h4',
+					'property' => 'color',
+				),
+				'text-color'              => array(
+					'selector' => '.amp-wp-content',
+					'property' => 'color',
+				),
+				'blockquote-bg-color'     => array(
+					'selector' => '.amp-wp-content blockquote',
+					'property' => 'background-color',
+				),
+				'blockquote-border-color' => array(
+					'selector' => '.amp-wp-content blockquote',
+					'property' => 'border-color',
+				),
+				'blockquote-text-color'   => array(
+					'selector' => '.amp-wp-content blockquote',
+					'property' => 'color',
+				),
+				'link-color'              => array(
+					'selector' => 'a, a:active, a:visited',
+					'property' => 'color',
+				),
+				'link-color-hover'        => array(
+					'selector' => 'a:hover, a:focus',
+					'property' => 'color',
+				),
+				'meta-color'              => array(
+					'selector' => '.amp-wp-meta li, .amp-wp-meta li a',
+					'property' => 'color',
+				),
+			);
+		}
+
+		/**
 		 * Add our own sanitizer to the array of sanitizers
 		 *
 		 * @param array $sanitizers
@@ -114,10 +160,12 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 					}
 					if ( $this->options[ 'post_types-' . $pt->name . '-amp' ] === 'on' ) {
 						add_post_type_support( $pt->name, AMP_QUERY_VAR );
+
 						return;
 					}
 					if ( 'post' === $pt->name ) {
 						add_action( 'wp', array( $this, 'disable_amp_for_posts' ) );
+
 						return;
 					}
 					remove_post_type_support( $pt->name, AMP_QUERY_VAR );
@@ -156,7 +204,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 		/**
 		 * Fix the AMP metadata for a post
 		 *
-		 * @param array $metadata
+		 * @param array   $metadata
 		 * @param WP_Post $post
 		 *
 		 * @return array
@@ -187,23 +235,17 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 			require 'views/additional-css.php';
 
 			$css_builder = new YoastSEO_AMP_CSS_Builder();
-			$css_builder->add_option( 'header-color', 'nav.amp-wp-title-bar', 'background' );
-			$css_builder->add_option( 'headings-color', '.amp-wp-title, h2, h3, h4', 'color' );
-			$css_builder->add_option( 'text-color', '.amp-wp-content', 'color' );
 
-			$css_builder->add_option( 'blockquote-bg-color', '.amp-wp-content blockquote', 'background-color' );
-			$css_builder->add_option( 'blockquote-border-color', '.amp-wp-content blockquote', 'border-color' );
-			$css_builder->add_option( 'blockquote-text-color', '.amp-wp-content blockquote', 'color' );
+			$css_selectors = $this->get_css_selectors();
 
-			$css_builder->add_option( 'link-color', 'a, a:active, a:visited', 'color' );
-			$css_builder->add_option( 'link-color-hover', 'a:hover, a:focus', 'color' );
-
-			$css_builder->add_option( 'meta-color', '.amp-wp-meta li, .amp-wp-meta li a', 'color' );
+			foreach( $css_selectors as $key => $css ){
+				$css_builder->add_option( $key, $css['selector'], $css['property'] );
+			}
 
 			echo $css_builder->build();
 
 			if ( ! empty( $this->options['extra-css'] ) ) {
-				$safe_text = strip_tags($this->options['extra-css']);
+				$safe_text = strip_tags( $this->options['extra-css'] );
 				$safe_text = wp_check_invalid_utf8( $safe_text );
 				$safe_text = _wp_specialchars( $safe_text, ENT_NOQUOTES );
 				echo $safe_text;
@@ -257,8 +299,8 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 		/**
 		 * Builds an image object array from an image URL
 		 *
-		 * @param string $image_url
-		 * @param string|array $size Optional. Image size. Accepts any valid image size, or an array of width
+		 * @param string       $image_url
+		 * @param string|array $size           Optional. Image size. Accepts any valid image size, or an array of width
 		 *                                     and height values in pixels (in that order). Default 'full'.
 		 *
 		 * @return array|false

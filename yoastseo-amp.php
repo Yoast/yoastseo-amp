@@ -47,7 +47,25 @@ if ( ! class_exists( 'YoastSEO_AMP', false ) ) {
 function yoast_seo_amp_glue_init() {
 	if ( defined( 'WPSEO_FILE' ) && defined( 'AMP__FILE__' ) ) {
 		new YoastSEO_AMP();
+
+		if( !defined('YoastSEO_AMP_PLUGIN_DIR' ) ){
+			define( 'YoastSEO_AMP_PLUGIN_DIR', plugin_dir_path( __FILE__ ) );
+		}
+
+		if( !defined('YoastSEO_AMP_PLUGIN_DIR_URL' ) ){
+			define( 'YoastSEO_AMP_PLUGIN_DIR_URL', plugin_dir_url( __FILE__ ) );
+		}
 	}
 }
 
 add_action( 'init', 'yoast_seo_amp_glue_init', 9 );
+
+/**
+ * Initialize the Yoast SEO AMP Glue plugin Customizer settings
+ */
+function yoast_seo_amp_glue_customizer_init(){
+	require_once( plugin_dir_path(__FILE__) . 'classes/class-customizer.php' );
+	YoastSEO_AMP_Customizer::get_instance();
+}
+
+add_action( 'after_setup_theme', 'yoast_seo_amp_glue_customizer_init' );

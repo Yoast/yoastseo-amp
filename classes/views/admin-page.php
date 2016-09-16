@@ -43,64 +43,11 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 		</div>
 
 		<div id="design" class="wpseotab">
-			<h3><?php echo esc_html( __( 'Images', 'wordpress-seo' ) ); ?></h3>
-
-			<?php
-			$yform->media_input( 'amp_site_icon', __( 'AMP icon', 'wordpress-seo' ) ); ?>
-			<p class="desc"><?php echo esc_html( __( 'Must be at least 32px &times; 32px', 'wordpress-seo' ) ); ?></p>
-			<br/>
-
-			<?php
-			$yform->media_input( 'default_image', __( 'Default image', 'wordpress-seo' ) ); ?>
-			<p class="desc"><?php echo esc_html( __( 'Used when a post doesn\'t have an image associated with it.', 'wordpress-seo' ) ); ?>
-				<br><?php echo esc_html( __( 'The image must be at least 696px wide.', 'wordpress-seo' ) ) ?></p>
-			<br/>
-
-			<h3><?php echo esc_html( __( 'Content colors', 'wordpress-seo' ) ); ?></h3>
-
-			<?php
-			$this->color_picker( 'header-color', __( 'AMP Header color', 'wordpress-seo' ) );
-			$this->color_picker( 'headings-color', __( 'Title color', 'wordpress-seo' ) );
-			$this->color_picker( 'text-color', __( 'Text color', 'wordpress-seo' ) );
-			$this->color_picker( 'meta-color', __( 'Post meta info color', 'wordpress-seo' ) );
-			?>
-			<br/>
-
-			<h3><?php echo esc_html( __( 'Links', 'wordpress-seo' ) ); ?></h3>
-			<?php
-			$this->color_picker( 'link-color', __( 'Text color', 'wordpress-seo' ) );
-			$this->color_picker( 'link-color-hover', __( 'Hover color', 'wordpress-seo' ) );
-			?>
-
-			<?php $yform->light_switch( 'underline', __( 'Underline', 'wordpress-seo' ), array(
-				__( 'Underline', 'wordpress-seo' ),
-				__( 'No underline', 'wordpress-seo' )
-			) ); ?>
-
-			<br/>
-
-			<h3><?php echo esc_html( __( 'Blockquotes', 'wordpress-seo' ) ); ?></h3>
-			<?php
-			$this->color_picker( 'blockquote-text-color', __( 'Text color', 'wordpress-seo' ) );
-			$this->color_picker( 'blockquote-bg-color', __( 'Background color', 'wordpress-seo' ) );
-			$this->color_picker( 'blockquote-border-color', __( 'Border color', 'wordpress-seo' ) );
-			?>
-			<br/>
-
-			<h3><?php echo esc_html( __( 'Extra CSS', 'wordpress-seo' ) ); ?></h3>
-			<?php $yform->textarea( 'extra-css', __( 'Extra CSS', 'wordpress-seo' ), array(
-				'rows' => 5,
-				'cols' => 100
-			) ); ?>
-
-			<br/>
-
-			<h3><?php printf( esc_html( __( 'Extra code in %s', 'wordpress-seo' ) ), '<code>&lt;head&gt;</code>' ); ?></h3>
-			<p><?php echo sprintf( esc_html( __( 'Only %s and %s tags are allowed, other tags will be removed automatically.', 'wordpress-seo' ) ), '<code>meta</code>', '<code>link</code>' ) ?></p>
-			<?php $yform->textarea( 'extra-head', __( 'Extra code', 'wordpress-seo' ), array(
-				'rows' => 5,
-				'cols' => 100
-			) ); ?>
+			<h2>
+				<a href="<?php echo 'customize.php?autofocus[panel]=amp_settings&return=' . urlencode( add_query_arg( 'page', 'wpseo_amp#top#design', get_admin_url( null, 'admin.php' ) ) );?>">
+					<?php _e( 'Click here to edit the AMP design in the Customizer', 'wordpress-seo' ); ?>
+				</a>
+			</h2>
 
 		</div>
 
