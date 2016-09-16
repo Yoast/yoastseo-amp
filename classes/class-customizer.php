@@ -99,7 +99,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 		 */
 		public function validate_extra_head( $validity, $value ) {
 			if ( ! empty( $value ) ) {
-				if ( 1 === preg_match( '/<[^link|meta]/', $value ) ){
+				if ( 1 === preg_match( '/<[^link|meta]/', $value ) ) {
 					$validity->add( 'invalid-code', sprintf( esc_html( __( 'Only %1$s and %2$s tags are allowed', 'wordpress-seo' ) ), '<link>', '<meta>' ) );
 				}
 			}
@@ -119,10 +119,10 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 			if ( ! empty( $value ) ) {
 				$image_atts = wp_get_attachment_metadata( $value );
 				if ( false !== $image_atts ) {
-					if ( $image_atts['width'] < 32 || $image_atts['height'] < 32 ){
+					if ( $image_atts['width'] < 32 || $image_atts['height'] < 32 ) {
 						$validity->add( 'image-size', __( 'The amp icon needs to be at least 32px &times; 32px', 'wordpress-seo' ) );
 					}
-					if ( $image_atts['width'] !== $image_atts['height'] ){
+					if ( $image_atts['width'] !== $image_atts['height'] ) {
 						$validity->add( 'image-size', __( 'The amp icon needs to have the same width and height', 'wordpress-seo' ) );
 					}
 				}
@@ -143,7 +143,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 			if ( ! empty( $value ) ) {
 				$image_atts = wp_get_attachment_metadata( $value );
 				if ( false !== $image_atts && $image_atts['width'] < 696 ) {
-						$validity->add( 'image-size', __( 'The amp default image needs to be at least 696px wide', 'wordpress-seo' ) );
+					$validity->add( 'image-size', __( 'The amp default image needs to be at least 696px wide', 'wordpress-seo' ) );
 				}
 			}
 
@@ -213,10 +213,10 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 			 */
 			$wp_customize->add_setting( $this->option_name . '[amp_site_icon]', array(
 				'capability'        => 'manage_options',
-				'type'              => 'theme_mod',
+				'type'              => 'option',
 				'sanitize_callback' => 'absint',
 				// Reload the entire page to get the new icon
-				'transport'         => 'reload',
+				'transport'         => 'refresh',
 				'validate_callback' => array( $this, 'sanitize_amp_site_icon' ),
 			) );
 
@@ -242,10 +242,10 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 			 */
 			$wp_customize->add_setting( $this->option_name . '[default_image]', array(
 				'capability'        => 'manage_options',
-				'type'              => 'theme_mod',
+				'type'              => 'option',
 				'sanitize_callback' => 'absint',
 				// Reload the entire page to get the default image
-				'transport'         => 'reload',
+				'transport'         => 'refresh',
 				'validate_callback' => array( $this, 'sanitize_amp_default_image' ),
 			) );
 
@@ -317,7 +317,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 					'label'   => $default_labels['underline'],
 					'choices' => array(
 						'underline' => __( 'Enabled', 'wordpress-seo' ),
-						'none' => __( 'Disabled', 'wordpress-seo' ),
+						'none'      => __( 'Disabled', 'wordpress-seo' ),
 					),
 				)
 			);
@@ -422,7 +422,7 @@ if ( ! class_exists( 'YoastSEO_AMP_Customizer' ) ) {
 			$amp_post_types = get_post_types_by_support( 'amp' );
 
 			// bail on archive and other non-singular templates
-			if( !is_singular( $amp_post_types) ){
+			if ( ! is_singular( $amp_post_types ) ) {
 				return false;
 			}
 
