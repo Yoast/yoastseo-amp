@@ -213,7 +213,8 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 		 */
 		private function update_post_type_settings() {
 			$post_type_names = array();
-			$post_types      = get_post_types( array( 'public' => true ), 'objects' );
+
+			$post_types = get_post_types( array( 'public' => true ), 'objects' );
 
 			if ( is_array( $post_types ) && $post_types !== array() ) {
 				foreach ( $post_types as $post_type ) {

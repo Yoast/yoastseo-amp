@@ -11,8 +11,12 @@ This plugin makes sure the default WordPress AMP plugin uses the proper Yoast SE
 
 == Description ==
 
-This plugin makes sure the default [WordPress AMP plugin](https://wordpress.org/plugins/amp/) uses the proper [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) metadata. Without this glue plugin things like canonical might go wrong.
+Google is currently working on the "Accelerated Mobile Pages" or AMP project. The [WordPress AMP plugin](https://wordpress.org/plugins/amp/) provides the technical implementation of the AMP specifications. This makes sure that your pages contain valid AMP code.
 
+The Yoast SEO: AMP Glue plugin integrates [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) into your AMP pages. This makes sure your meta-data is implemented correctly.
+
+Next to the technical SEO improvements, the Yoast SEO: AMP Glue plugin also provides a simple way to customize your AMP pages.
+It adds rudimental styling in the form of colors and link styles, so your AMP pages can maintain the feeling your main pages have.
 To change your AMP page design, go to SEO -> AMP, and look at the design tab.
 
 == Installation ==

@@ -6,6 +6,15 @@ Glue for Yoast SEO & AMP
 Welcome to the Yoast SEO AMP Glue GitHub repository
 ---------------------------------------------------
 
+Google is currently working on the "Accelerated Mobile Pages" or AMP project. The [WordPress AMP plugin](https://wordpress.org/plugins/amp/) provides the technical implementation of the AMP specifications. This makes sure that your pages contain valid AMP code.
+
+The Yoast SEO: AMP Glue plugin integrates [Yoast SEO](https://wordpress.org/plugins/wordpress-seo/) into your AMP pages. This makes sure your meta-data is implemented correctly.
+
+Next to the technical SEO improvements, the Yoast SEO: AMP Glue plugin also provides a simple way to customize your AMP pages.
+It adds rudimental styling in the form of colors and link styles, so your AMP pages can maintain the feeling your main pages have.
+To change your AMP page design, go to SEO -> AMP, and look at the design tab.
+
+
 Reporting bugs
 ----
 If you find an issue, [let us know here](https://github.com/yoast/yoastseo-amp/issues/new)! Please follow [how to write a good bug report?](http://kb.yoast.com/article/180-how-to-write-a-good-bug-report) guidelines.

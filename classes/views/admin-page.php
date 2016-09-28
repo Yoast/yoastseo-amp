@@ -38,8 +38,13 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 					);
 				}
 			}
-
 			?>
+
+			<br>
+			<strong><?php echo esc_html( __( 'Please note:', 'wordpress-seo' ) ); ?></strong>
+			<?php echo esc_html( __( 'Currently pages are not supported by the AMP plugin.', 'wordpress-seo' ) ); ?>
+			<?php echo esc_html( __( 'We still show this option to be able to provide functionality when the AMP plugin implements support for them.', 'wordpress-seo' ) ); ?>
+			</p>
 		</div>
 
 		<div id="design" class="wpseotab">
