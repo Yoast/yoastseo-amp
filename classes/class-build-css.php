@@ -48,6 +48,10 @@ if ( ! class_exists( 'YoastSEO_AMP_CSS_Builder', false ) ) {
 			}
 
 			if ( ! empty( $css ) ) {
+
+			    // able to filter css properties
+			    $css = apply_filters('yoast_seo_amp_css_build', $css);
+
 				foreach ( $css as $selector => $properties ) {
 
 					$inner = '';
