@@ -33,7 +33,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 			'blockquote-border-color' => '',
 			'extra-css'               => '',
 			'extra-head'              => '',
-			'analytics-extra'         => '',
 		);
 
 		/** @var self Class instance */
@@ -92,8 +91,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 				}
 			}
 
-			$options['analytics-extra'] = $this->sanitize_analytics_code( $options['analytics-extra'] );
-
 			return $options;
 		}
 
@@ -111,54 +108,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Options' ) ) {
 			}
 
 			return $default;
-		}
-
-		/**
-		 * @param string $source Raw input.
-		 *
-		 * @return string Sanitized code.
-		 */
-		private function sanitize_analytics_code( $source ) {
-
-			$source = trim( $source );
-
-			if ( empty( $source ) ) {
-				return $source;
-			}
-
-			$code = $source;
-
-			// Strip all tags, to verify JSON input.
-			$json        = strip_tags( $code );
-			$parsed_json = json_decode( $json, true );
-
-			// Non-parsable JSON is always bad.
-			if ( is_null( $parsed_json ) ) {
-				return '';
-			}
-
-			$allowed_tags = strip_tags( $code, '<amp-analytics>' );
-
-			// Strip JSON content so we can apply verified script tag.
-			$tag = str_replace( $json, '', $allowed_tags );
-
-			// If the tag doesn't occur in the code, the code is invalid.
-			if ( false === strpos( $allowed_tags, '<amp-analytics' ) ) {
-				return '';
-			}
-
-			$parts = explode( '><', $tag );
-			$parts[0] .= '>';
-			$parts[1] = '<' . $parts[1];
-
-			// Rebuild with script tag and json content.
-			array_splice( $parts, 1, null, array(
-				'<script type="application/json">',
-				trim( $json ),
-				'</script>'
-			) );
-
-			return implode( "\n", $parts );
 		}
 
 		/**
