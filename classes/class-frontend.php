@@ -37,11 +37,9 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 
 			add_action( 'amp_post_template_css', array( $this, 'additional_css' ) );
 			add_action( 'amp_post_template_head', array( $this, 'extra_head' ) );
-			add_action( 'amp_post_template_footer', array( $this, 'extra_footer' ) );
 
 			add_filter( 'amp_post_template_data', array( $this, 'fix_amp_post_data' ) );
 			add_filter( 'amp_post_template_metadata', array( $this, 'fix_amp_post_metadata' ), 10, 2 );
-			add_filter( 'amp_post_template_analytics', array( $this, 'analytics' ) );
 
 			add_filter( 'amp_content_sanitizers', array( $this, 'add_sanitizer' ) );
 		}
@@ -64,50 +62,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 			$sanitizers['Yoast_AMP_Blacklist_Sanitizer'] = array();
 
 			return $sanitizers;
-		}
-
-		/**
-		 * If analytics tracking has been set, output it now.
-		 *
-		 * @param array $analytics
-		 *
-		 * @return array
-		 */
-		public function analytics( $analytics ) {
-			// If Monster Insights is outputting analytics, don't do anything.
-			if ( ! empty( $analytics['monsterinsights-googleanalytics'] ) ) {
-				// Clear analytics-extra options because Monster Insights is taking care of everything.
-				$this->options['analytics-extra'] = '';
-
-				return $analytics;
-			}
-
-			if ( ! empty( $this->options['analytics-extra'] ) ) {
-				return $analytics;
-			}
-
-			if ( ! class_exists( 'Yoast_GA_Options' ) || Yoast_GA_Options::instance()->get_tracking_code() === null ) {
-				return $analytics;
-			}
-			$UA = Yoast_GA_Options::instance()->get_tracking_code();
-
-			$analytics['yst-googleanalytics'] = array(
-				'type'        => 'googleanalytics',
-				'attributes'  => array(),
-				'config_data' => array(
-					'vars'     => array(
-						'account' => $UA
-					),
-					'triggers' => array(
-						'trackPageview' => array(
-							'on'      => 'visible',
-							'request' => 'pageview',
-						),
-					),
-				),
-			);
-
-			return $analytics;
 		}
 
 		/**
@@ -164,12 +118,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 			if ( ! empty( $this->options['amp_site_icon'] ) ) {
 				$data['site_icon_url'] = $this->options['amp_site_icon'];
 			}
-
-			// If we are loading extra analytics, we need to load the module too.
-			if ( ! empty( $this->options['analytics-extra'] ) ) {
-				$data['amp_component_scripts']['amp-analytics'] = 'https://cdn.ampproject.org/v0/amp-analytics-0.1.js';
-			}
-
 			return $data;
 		}
 
@@ -248,13 +196,6 @@ if ( ! class_exists( 'YoastSEO_AMP_Frontend' ) ) {
 			do_action( 'wpseo_opengraph' );
 
 			echo strip_tags( $this->options['extra-head'], '<link><meta>' );
-		}
-
-		/**
-		 * Outputs analytics code in the footer, if set
-		 */
-		public function extra_footer() {
-			echo $this->options['analytics-extra'];
 		}
 
 		/**
