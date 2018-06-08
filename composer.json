@@ -23,6 +23,7 @@
     "source": "https://github.com/Yoast/yoastseo-amp"
   },
   "require": {
+    "composer/installers": "^1.5"
   },
   "require-dev": {
     "yoast/yoastcs": "dev-master",

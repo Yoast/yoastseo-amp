@@ -13,8 +13,8 @@ if ( ! defined( 'WPSEO_VERSION' ) ) {
 	exit();
 }
 
-$yform = Yoast_Form::get_instance();
-$yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
+$yoast_amp_yform = Yoast_Form::get_instance();
+$yoast_amp_yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 
 ?>
 
@@ -32,20 +32,20 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 				<?php esc_html_e( 'Post is enabled by default, feel free to enable any of them.', 'yoastseo-amp' ); ?></p>
 			<?php
 
-			$post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
+			$yoast_amp_post_types = apply_filters( 'wpseo_sitemaps_supported_post_types', get_post_types( array( 'public' => true ), 'objects' ) );
 
 			// Allow specific AMP post type overrides, especially needed for Page support.
-			$post_types = apply_filters( 'wpseo_amp_supported_post_types', $post_types );
+			$yoast_amp_post_types = apply_filters( 'wpseo_amp_supported_post_types', $yoast_amp_post_types );
 
-			if ( is_array( $post_types ) && $post_types !== array() ) {
-				foreach ( $post_types as $pt ) {
-					$yform->toggle_switch(
-						'post_types-' . $pt->name . '-amp',
+			if ( is_array( $yoast_amp_post_types ) && $yoast_amp_post_types !== array() ) {
+				foreach ( $yoast_amp_post_types as $yoast_amp_pt ) {
+					$yoast_amp_yform->toggle_switch(
+						'post_types-' . $yoast_amp_pt->name . '-amp',
 						array(
 							'on'  => __( 'Enabled', 'yoastseo-amp' ),
 							'off' => __( 'Disabled', 'yoastseo-amp' ),
 						),
-						$pt->labels->name . ' (<code>' . $pt->name . '</code>)'
+						$yoast_amp_pt->labels->name . ' (<code>' . $yoast_amp_pt->name . '</code>)'
 					);
 				}
 			}
@@ -65,13 +65,13 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 			<h3><?php esc_html_e( 'Images', 'yoastseo-amp' ); ?></h3>
 
 			<?php
-			$yform->media_input( 'amp_site_icon', __( 'AMP icon', 'yoastseo-amp' ) );
+			$yoast_amp_yform->media_input( 'amp_site_icon', __( 'AMP icon', 'yoastseo-amp' ) );
 			?>
 			<p class="desc"><?php esc_html_e( 'Must be at least 32px &times; 32px', 'yoastseo-amp' ); ?></p>
 			<br/>
 
 			<?php
-			$yform->media_input( 'default_image', __( 'Default image', 'yoastseo-amp' ) );
+			$yoast_amp_yform->media_input( 'default_image', __( 'Default image', 'yoastseo-amp' ) );
 			?>
 			<p class="desc"><?php esc_html_e( 'Used when a post doesn\'t have an image associated with it.', 'yoastseo-amp' ); ?>
 				<br><?php esc_html_e( 'The image must be at least 696px wide.', 'yoastseo-amp' ); ?></p>
@@ -94,7 +94,7 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 			?>
 
 			<?php
-			$yform->light_switch(
+			$yoast_amp_yform->light_switch(
 				'underline',
 				__( 'Underline', 'yoastseo-amp' ),
 				array(
@@ -116,7 +116,7 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 
 			<h3><?php esc_html_e( 'Extra CSS', 'yoastseo-amp' ); ?></h3>
 			<?php
-			$yform->textarea(
+			$yoast_amp_yform->textarea(
 				'extra-css',
 				__( 'Extra CSS', 'yoastseo-amp' ),
 				array(
@@ -144,7 +144,7 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 				?>
 			</p>
 			<?php
-			$yform->textarea(
+			$yoast_amp_yform->textarea(
 				'extra-head',
 				__( 'Extra code', 'yoastseo-amp' ),
 				array(
@@ -177,7 +177,7 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 				echo '</p>';
 
 				echo '<p>', esc_html__( 'Optionally you can override the default AMP tracking code with your own by putting it below:', 'yoastseo-amp' ), '</p>';
-				$yform->textarea(
+				$yoast_amp_yform->textarea(
 					'analytics-extra',
 					__( 'Analytics code', 'yoastseo-amp' ),
 					array(
@@ -188,7 +188,7 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 			}
 			else {
 				echo '<p>', esc_html__( 'Optionally add a valid google analytics tracking code.', 'yoastseo-amp' ), '</p>';
-				$yform->textarea(
+				$yoast_amp_yform->textarea(
 					'analytics-extra',
 					__( 'Analytics code', 'yoastseo-amp' ),
 					array(
@@ -203,4 +203,4 @@ $yform->admin_header( true, 'wpseo_amp', false, 'wpseo_amp_settings' );
 
 <?php
 
-$yform->admin_footer();
+$yoast_amp_yform->admin_footer();
