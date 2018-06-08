@@ -27,7 +27,12 @@ class Yoast_AMP_Blacklist_Sanitizer extends AMP_Base_Sanitizer {
 	 * The actual sanitization function.
 	 */
 	public function sanitize() {
-		$body = $this->root_element;
+	    if ( property_exists( 'Yoast_AMP_Blacklist_Sanitizer', 'root_element' ) ) {
+            $body = $this->root_element;
+        } else {
+            $body = $this->get_body_node();
+        }
+
 		$this->strip_attributes_recursive( $body );
 	}
 
